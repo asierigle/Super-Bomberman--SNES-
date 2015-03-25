@@ -25,6 +25,8 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
+
+	// Call Init() in all modules
 	p2List_item<Module*>* item = list_modules.getFirst();
 
 	while(item != NULL && ret == true)
@@ -33,9 +35,20 @@ bool Application::Init()
 		item = item->next;
 	}
 
+	// After all Init calls we call Start() in all modules
+	LOG("Application Start --------------");
+	item = list_modules.getFirst();
+
+	while(item != NULL && ret == true)
+	{
+		ret = item->data->Start();
+		item = item->next;
+	}
+	
 	return ret;
 }
 
+// Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
@@ -43,7 +56,23 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
+		ret = item->data->PreUpdate();
+		item = item->next;
+	}
+
+	item = list_modules.getFirst();
+
+	while(item != NULL && ret == UPDATE_CONTINUE)
+	{
 		ret = item->data->Update();
+		item = item->next;
+	}
+
+	item = list_modules.getFirst();
+
+	while(item != NULL && ret == UPDATE_CONTINUE)
+	{
+		ret = item->data->PostUpdate();
 		item = item->next;
 	}
 

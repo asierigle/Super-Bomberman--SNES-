@@ -34,12 +34,16 @@ bool ModuleRender::Init()
 	return ret;
 }
 
-// Called every draw update
-update_status ModuleRender::Update()
+// PreUpdate: clear buffer
+update_status ModuleRender::PreUpdate()
 {
 	SDL_RenderClear(renderer);
+	return UPDATE_CONTINUE;
+}
 
-	// TODO: crear un PreUpdate Update PostUpdate
+// PostUpdate present buffer to screen
+update_status ModuleRender::PostUpdate()
+{
 	SDL_RenderPresent(renderer);
 	return UPDATE_CONTINUE;
 }

@@ -37,8 +37,15 @@ bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
 
-	// TODO: alliberar la memoria de les textures
+	p2List_item<SDL_Texture*>* item = textures.getFirst();
 
+	while(item != NULL)
+	{
+		SDL_DestroyTexture(item->data);
+		item = item->next;
+	}
+
+	textures.clear();
 	IMG_Quit();
 	return true;
 }
