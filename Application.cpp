@@ -7,11 +7,16 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
+	background = new ModuleBackground(this);
 
+	// The order of calls is very important!
+	// Modules will Init() Start() and Update in this order
+	// They will CleanUp() in reverse order
 	AddModule(window);
 	AddModule(renderer);
 	AddModule(textures);
 	AddModule(input);
+	AddModule(background);
 }
 
 Application::~Application()
@@ -20,6 +25,7 @@ Application::~Application()
 	delete window;
 	delete textures;
 	delete input;
+	delete background;
 }
 
 bool Application::Init()

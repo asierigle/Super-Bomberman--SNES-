@@ -8,6 +8,7 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
+#include "ModuleBackground.h"
 
 class Application
 {
@@ -16,6 +17,7 @@ public:
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;
+	ModuleBackground* background;
 
 private:
 
