@@ -42,9 +42,6 @@
     <ClInclude Include="ModuleBackground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovingPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -56,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="List.h">
       <Filter>Header Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePlayer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModuleBackground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

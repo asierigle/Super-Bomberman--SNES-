@@ -8,6 +8,7 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	background = new ModuleBackground(this);
+	player = new ModulePlayer(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -17,6 +18,7 @@ Application::Application()
 	AddModule(textures);
 	AddModule(input);
 	AddModule(background);
+	AddModule(player);
 }
 
 Application::~Application()
@@ -26,6 +28,7 @@ Application::~Application()
 	delete textures;
 	delete input;
 	delete background;
+	delete player;
 }
 
 bool Application::Init()

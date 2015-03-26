@@ -17,7 +17,6 @@ public:
 	SDL_Rect& GetCurrentFrame()
 	{
 		current_frame += speed;
-
 		if(current_frame >= frames.Count())
 			current_frame = 0;
 
