@@ -44,6 +44,26 @@ update_status ModuleRender::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
+// Update: debug camera
+update_status ModuleRender::Update()
+{
+	int speed = 3;
+
+	if(App->input->keyboard[SDL_SCANCODE_UP] == 1)
+		App->renderer->camera.y += speed;
+
+	if(App->input->keyboard[SDL_SCANCODE_DOWN] == 1)
+		App->renderer->camera.y -= speed;
+
+	if(App->input->keyboard[SDL_SCANCODE_LEFT] == 1)
+		App->renderer->camera.x += speed;
+
+	if(App->input->keyboard[SDL_SCANCODE_RIGHT] == 1)
+		App->renderer->camera.x -= speed;
+
+	return UPDATE_CONTINUE;
+}
+
 // PostUpdate present buffer to screen
 update_status ModuleRender::PostUpdate()
 {
@@ -70,8 +90,8 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section, f
 {
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (camera.x * speed) + x * SCREEN_SIZE;
-	rect.y = (camera.y * speed) + y * SCREEN_SIZE;
+	rect.x = (int) (camera.x * speed) + x * SCREEN_SIZE;
+	rect.y = (int) (camera.y * speed) + y * SCREEN_SIZE;
 
 	if(section != NULL)
 	{

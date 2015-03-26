@@ -58,21 +58,6 @@ bool ModuleBackground::Start()
 // Update: draw background
 update_status ModuleBackground::Update()
 {
-	// debug camera movement --------------------------------
-	int speed = 3;
-	
-	if(App->input->keyboard[SDL_SCANCODE_UP] == 1)
-		App->renderer->camera.y += speed;
-
-	if(App->input->keyboard[SDL_SCANCODE_DOWN] == 1)
-		App->renderer->camera.y -= speed;
-
-	if(App->input->keyboard[SDL_SCANCODE_LEFT] == 1)
-		App->renderer->camera.x += speed;
-
-	if(App->input->keyboard[SDL_SCANCODE_RIGHT] == 1)
-		App->renderer->camera.x -= speed;
-
 	// Calculate boat Y position -----------------------------
 	if(foreground_pos < -6.0f)
 		forward = false;

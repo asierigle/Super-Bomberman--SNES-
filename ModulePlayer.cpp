@@ -17,10 +17,10 @@ ModulePlayer::ModulePlayer(Application* app) : Module(app)
 	idle.frames.PushBack({184, 14, 60, 90});
 	idle.frames.PushBack({276, 11, 60, 93});
 	idle.frames.PushBack({366, 12, 60, 92});
-	idle.speed = 0.1f;
+	idle.speed = 0.2f;
 
 	// walk forward animation (arcade sprite sheet)
-	forward.frames.PushBack({9, 136, 53, 83});
+	//forward.frames.PushBack({9, 136, 53, 83});
 	forward.frames.PushBack({78, 131, 60, 88});
 	forward.frames.PushBack({162, 128, 64, 92});
 	forward.frames.PushBack({259, 128, 63, 90});
