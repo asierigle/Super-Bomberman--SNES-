@@ -1,10 +1,10 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleBackground.h"
+#include "ModuleSceneKen.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
-ModuleBackground::ModuleBackground(Application* app) : Module(app)
+ModuleSceneKen::ModuleSceneKen(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;
 
@@ -43,20 +43,34 @@ ModuleBackground::ModuleBackground(Application* app) : Module(app)
 	forward = true;
 }
 
-ModuleBackground::~ModuleBackground()
+ModuleSceneKen::~ModuleSceneKen()
 {}
 
 // Load assets
-bool ModuleBackground::Start()
+bool ModuleSceneKen::Start()
 {
-	LOG("Loading background assets");
-	bool ret = true;
+	LOG("Loading ken scene");
+	
 	graphics = App->textures->Load("ken_stage.png");
-	return ret;
+	App->audio->PlayMusic("ken.ogg", 1.0f);
+	App->player->Enable();
+	
+	return true;
+}
+
+// UnLoad assets
+bool ModuleSceneKen::CleanUp()
+{
+	LOG("Unloading ken scene");
+
+	App->textures->Unload(graphics);
+	App->player->Disable();
+	
+	return true;
 }
 
 // Update: draw background
-update_status ModuleBackground::Update()
+update_status ModuleSceneKen::Update()
 {
 	// Calculate boat Y position -----------------------------
 	if(foreground_pos < -6.0f)
@@ -77,6 +91,10 @@ update_status ModuleBackground::Update()
 	App->renderer->Blit(graphics, 192, 104 + (int)foreground_pos, &(girl.GetCurrentFrame()), 0.92f); // girl animation
 	
 	App->renderer->Blit(graphics, 0, 170, &ground);
+
+	// hack for testing
+	if(App->input->keyboard[SDL_SCANCODE_F])
+		App->fade->FadeToBlack(this, App->scene_honda, 2.0f);
 
 	return UPDATE_CONTINUE;
 }

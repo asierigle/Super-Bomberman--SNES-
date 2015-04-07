@@ -4,12 +4,12 @@
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
-ModulePlayer::ModulePlayer(Application* app) : Module(app)
+ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;
 
 	position.x = 100;
-	position.y = 220;
+	position.y = 216;
 
 	// idle animation (arcade sprite sheet)
 	idle.frames.PushBack({7, 14, 60, 90});
@@ -44,10 +44,21 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-	LOG("Loading player textures");
-	bool ret = true;
+	LOG("Loading player");
+
 	graphics = App->textures->Load("ryu4.png"); // arcade version
-	return ret;
+
+	return true;
+}
+
+// Unload assets
+bool ModulePlayer::CleanUp()
+{
+	LOG("Unloading player");
+
+	App->textures->Unload(graphics);
+
+	return true;
 }
 
 // Update: draw background
@@ -73,6 +84,6 @@ update_status ModulePlayer::Update()
 	SDL_Rect r = current_animation->GetCurrentFrame();
 
 	App->renderer->Blit(graphics, position.x, position.y - r.h, &r);
-	
+
 	return UPDATE_CONTINUE;
 }

@@ -3,14 +3,15 @@
 #include "Animation.h"
 #include "Globals.h"
 
-class ModuleBackground : public Module
+class ModuleSceneKen : public Module
 {
 public:
-	ModuleBackground(Application* app);
-	~ModuleBackground();
+	ModuleSceneKen(Application* app, bool start_enabled = true);
+	~ModuleSceneKen();
 
 	bool Start();
 	update_status Update();
+	bool CleanUp();
 
 public:
 	

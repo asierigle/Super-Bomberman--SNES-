@@ -7,18 +7,32 @@ Application::Application()
 	window = new ModuleWindow(this);
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
-	background = new ModuleBackground(this);
-	player = new ModulePlayer(this);
+	audio = new ModuleAudio(this);
+	scene_ken = new ModuleSceneKen(this, false);
+	player = new ModulePlayer(this, false);
+	scene_honda = new ModuleSceneHonda(this, true);
+	fade = new ModuleFadeToBlack(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
+
+	// Main Modules
 	AddModule(window);
 	AddModule(renderer);
 	AddModule(textures);
 	AddModule(input);
-	AddModule(background);
+	AddModule(audio);
+
+	// Scenes
+	AddModule(scene_ken);
+	AddModule(scene_honda);
+	
+	// Characters
 	AddModule(player);
+
+	// Misc
+	AddModule(fade); // let this after all drawing
 }
 
 Application::~Application()
@@ -27,8 +41,11 @@ Application::~Application()
 	delete window;
 	delete textures;
 	delete input;
-	delete background;
+	delete audio;
+	delete scene_honda;
+	delete scene_ken;
 	delete player;
+	delete fade;
 }
 
 bool Application::Init()
@@ -50,7 +67,8 @@ bool Application::Init()
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if(item->data->IsEnabled())
+			ret = item->data->Start();
 		item = item->next;
 	}
 	
@@ -65,7 +83,8 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->PreUpdate();
+		if(item->data->IsEnabled())
+			ret = item->data->PreUpdate();
 		item = item->next;
 	}
 
@@ -73,7 +92,8 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->Update();
+		if(item->data->IsEnabled())
+			ret = item->data->Update();
 		item = item->next;
 	}
 
@@ -81,7 +101,8 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->PostUpdate();
+		if(item->data->IsEnabled())
+			ret = item->data->PostUpdate();
 		item = item->next;
 	}
 

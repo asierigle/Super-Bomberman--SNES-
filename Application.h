@@ -8,8 +8,11 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
-#include "ModuleBackground.h"
+#include "ModuleAudio.h"
+#include "ModuleSceneKen.h"
 #include "ModulePlayer.h"
+#include "ModuleFadeToBlack.h"
+#include "ModuleSceneHonda.h"
 
 class Application
 {
@@ -18,8 +21,11 @@ public:
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;
-	ModuleBackground* background;
+	ModuleAudio* audio;
+	ModuleSceneKen* scene_ken;
 	ModulePlayer* player;
+	ModuleFadeToBlack* fade;
+	ModuleSceneHonda* scene_honda;
 
 private:
 

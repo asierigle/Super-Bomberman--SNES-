@@ -7,11 +7,12 @@
 class ModulePlayer : public Module
 {
 public:
-	ModulePlayer(Application* app);
+	ModulePlayer(Application* app, bool start_enabled = true);
 	~ModulePlayer();
 
 	bool Start();
 	update_status Update();
+	bool CleanUp();
 
 public:
 

@@ -6,6 +6,8 @@
 
 void log(const char file[], int line, const char* format, ...);
 
+#define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
+
 enum update_status
 {
 	UPDATE_CONTINUE = 1,
@@ -16,7 +18,7 @@ enum update_status
 // Configuration -----------
 #define SCREEN_WIDTH 384
 #define SCREEN_HEIGHT 224
-#define SCREEN_SIZE 2
+#define SCREEN_SIZE 3
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE false
 #define WIN_BORDERLESS false
