@@ -7,7 +7,9 @@ ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool start_enabled) :
 Module(app, start_enabled), 
 start_time(0), 
 total_time(0), 
-fading_in(true)
+fading_in(true),
+mod_on(NULL),
+mod_off(NULL)
 {
 	screen = {0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE};
 }
@@ -45,9 +47,10 @@ update_status ModuleFadeToBlack::Update()
 			if(fading_in == true)
 			{
 				total_time += total_time;
-				start_time = SDL_GetTicks();
 				fading_in = false;
-				// TODO 2: Fer un disable / enable dels moduls rebuts a FadeToBlack()
+				mod_off->Disable();
+				mod_on->Enable();
+				start_time = SDL_GetTicks();
 			}
 			else
 				start_time = 0;
@@ -63,4 +66,6 @@ void ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float
 	fading_in = true;
 	start_time = SDL_GetTicks();
 	total_time = (Uint32) (time * 0.5f * 1000.0f);
+	mod_on = module_on;
+	mod_off = module_off;
 }

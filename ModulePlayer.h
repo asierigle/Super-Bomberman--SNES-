@@ -17,9 +17,10 @@ public:
 public:
 
 	SDL_Texture* graphics;
+	Animation* current_animation;
 	Animation idle;
-	Animation forward;
-	Animation backward;
+	Animation up;
+	Animation down;
 	p2Point<int> position;
 
 };

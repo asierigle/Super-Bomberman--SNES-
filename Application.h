@@ -1,6 +1,6 @@
 #pragma once
 
-#include "List.h"
+#include "p2List.h"
 #include "Globals.h"
 #include "Module.h"
 #include "Dummy.h"
@@ -9,10 +9,11 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
-#include "ModuleSceneKen.h"
+#include "ModuleSceneSpace.h"
 #include "ModulePlayer.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleSceneHonda.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleParticles.h"
 
 class Application
 {
@@ -22,10 +23,11 @@ public:
 	ModuleTextures* textures;
 	ModuleInput* input;
 	ModuleAudio* audio;
-	ModuleSceneKen* scene_ken;
+	ModuleSceneSpace* scene_space;
 	ModulePlayer* player;
 	ModuleFadeToBlack* fade;
-	ModuleSceneHonda* scene_honda;
+	ModuleSceneIntro* scene_intro;
+	ModuleParticles* particles;
 
 private:
 

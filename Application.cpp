@@ -8,10 +8,11 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this);
-	scene_ken = new ModuleSceneKen(this, false); 	// TODO 0: Decidir quina scene començar
+	scene_space = new ModuleSceneSpace(this, false);
 	player = new ModulePlayer(this, false);
-	scene_honda = new ModuleSceneHonda(this, false);
+	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
+	particles = new ModuleParticles(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -23,15 +24,16 @@ Application::Application()
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
-
+	
 	// Scenes
-	AddModule(scene_ken);
-	AddModule(scene_honda);
+	AddModule(scene_space);
+	AddModule(scene_intro);
 	
 	// Characters
 	AddModule(player);
 
 	// Misc
+	AddModule(particles);
 	AddModule(fade); // let this after all drawing
 }
 
@@ -41,9 +43,10 @@ Application::~Application()
 	delete window;
 	delete textures;
 	delete input;
+	delete particles;
 	delete audio;
-	delete scene_honda;
-	delete scene_ken;
+	delete scene_intro;
+	delete scene_space;
 	delete player;
 	delete fade;
 }

@@ -13,5 +13,8 @@ public:
 	update_status PreUpdate();
 	bool CleanUp();
 
-	const Uint8 *keyboard;
+	const Uint8* keyboard;
+	Uint8* keyboard_down;
+	int mouse_x;
+	int mouse_y;
 };
