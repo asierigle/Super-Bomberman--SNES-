@@ -29,11 +29,7 @@ public:
 
 	void Disable()
 	{
-		if(enabled == true)
-		{
-			enabled = false;
-			CleanUp();
-		}
+		// TODO 0: Cridar al CleanUp() al fer un Disable
 	}
 
 	virtual bool Init() 

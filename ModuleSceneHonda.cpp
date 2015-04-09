@@ -36,8 +36,8 @@ bool ModuleSceneHonda::Start()
 	LOG("Loading background assets");
 	bool ret = true;
 	graphics = App->textures->Load("honda_stage2.png");
-	App->audio->PlayMusic("honda.ogg", 1.0f);
-	App->player->Enable();
+
+	// TODO 1: Fer Enable/Disable del jugador i posar la musica
 
 	return ret;
 }
@@ -48,7 +48,6 @@ bool ModuleSceneHonda::CleanUp()
 	LOG("Unloading honda stage");
 
 	App->textures->Unload(graphics);
-	App->player->Disable();
 
 	return true;
 }
@@ -64,8 +63,7 @@ update_status ModuleSceneHonda::Update()
 	App->renderer->Blit(graphics, 305, 136, &(water.GetCurrentFrame())); // water animation
 	App->renderer->Blit(graphics, 0, -16, &roof, 0.75f);
 
-	if(App->input->keyboard[SDL_SCANCODE_F])
-		App->fade->FadeToBlack(this, App->scene_ken, 2.0f);
+	// TODO 3: Fer que al apretar el espai es façi un fade i es carregui KenStage
 
 	return UPDATE_CONTINUE;
 }
