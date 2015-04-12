@@ -7,10 +7,8 @@
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	graphics = NULL;
+	collider = NULL;
 	current_animation = NULL;
-
-	position.x = 150;
-	position.y = 120;
 
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
@@ -37,6 +35,9 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	graphics = App->textures->Load("rtype/ship.png");
+	collider = App->collision->AddCollider({position.x, position.y, 32, 14}, COLLIDER_PLAYER, this);
+	position.x = 150;
+	position.y = 120;
 
 	return true;
 }
@@ -94,9 +95,18 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
 		current_animation = &idle;
 
+	collider->SetPos(position.x, position.y);
+
 	// Draw everything --------------------------------------
 
 	App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
+}
+
+// Collision detection
+void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
+{
+	LOG("Player collided!");
+	App->fade->FadeToBlack(App->scene_space, App->scene_intro);
 }

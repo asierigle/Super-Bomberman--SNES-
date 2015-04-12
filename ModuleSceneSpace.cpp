@@ -20,9 +20,15 @@ bool ModuleSceneSpace::Start()
 	
 	background = App->textures->Load("rtype/background.png");
 
+	App->collision->Enable(); // enable before player
 	App->player->Enable();
 	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
-	
+
+	App->renderer->camera.x = App->renderer->camera.y = 0;
+
+	App->collision->AddCollider({0,224,3930, 16}, COLLIDER_WALL);
+	App->collision->AddCollider({142, 192, 63, 48}, COLLIDER_WALL);
+
 	return true;
 }
 
@@ -33,6 +39,7 @@ bool ModuleSceneSpace::CleanUp()
 
 	App->textures->Unload(background);
 	App->player->Disable();
+	App->collision->Disable();
 	
 	return true;
 }
@@ -46,7 +53,6 @@ update_status ModuleSceneSpace::Update()
 	App->player->position.x += 1;
 	App->renderer->camera.x -= 3;
 	
-
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);
 	

@@ -3,6 +3,8 @@
 #include "Animation.h"
 #include "Globals.h"
 
+struct Collider;
+
 class ModuleSceneSpace : public Module
 {
 public:

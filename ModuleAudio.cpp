@@ -71,8 +71,11 @@ bool ModuleAudio::CleanUp()
 // Play a music file
 bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 {
-	bool ret = true;
+	if(IsEnabled() == false)
+		return false;
 
+	bool ret = true;
+	
 	if(music != NULL)
 	{
 		if(fade_time > 0.0f)
@@ -122,7 +125,11 @@ bool ModuleAudio::PlayMusic(const char* path, float fade_time)
 // Load WAV
 unsigned int ModuleAudio::LoadFx(const char* path)
 {
+	if(IsEnabled() == false)
+		return 0;
+
 	unsigned int ret = 0;
+
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
 
 	if(chunk == NULL)
@@ -141,6 +148,9 @@ unsigned int ModuleAudio::LoadFx(const char* path)
 // Play WAV
 bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 {
+	if(IsEnabled() == false)
+		return false;
+
 	bool ret = false;
 
 	Mix_Chunk* chunk = NULL;
