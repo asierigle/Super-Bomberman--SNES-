@@ -3,7 +3,37 @@
 #include "ModuleCollision.h"
 
 ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
+{
+	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_WALL][COLLIDER_PLAYER_SHOT] = true;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = true;
+
+	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SHOT] = true;
+
+	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER_SHOT] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY_SHOT] = false;
+
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_WALL] = true;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_SHOT] = false;
+
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_WALL] = true;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_SHOT] = false;
+}
 
 // Destructor
 ModuleCollision::~ModuleCollision()
@@ -26,10 +56,13 @@ update_status ModuleCollision::Update()
 		{
 			c2 = tmp2->data;
 
-			if(c1->type != c2->type && c1->CheckCollision(c2->rect) == true)
+			if(c1->CheckCollision(c2->rect) == true)
 			{
-				if(c1->callback) c1->callback->OnCollision(c1, c2);
-				if(c2->callback) c2->callback->OnCollision(c2, c1);
+				if(matrix[c1->type][c2->type] && c1->callback) 
+					c1->callback->OnCollision(c1, c2);
+				
+				if(matrix[c2->type][c1->type] && c2->callback) 
+					c2->callback->OnCollision(c2, c1);
 			}
 
 			tmp2 = tmp2->next;

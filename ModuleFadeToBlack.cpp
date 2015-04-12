@@ -63,12 +63,9 @@ update_status ModuleFadeToBlack::Update()
 // Fade to black. At mid point deactivate one module, then activate the other
 void ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
 {
-	if(start_time == 0) // avoid spam
-	{
-		fading_in = true;
-		start_time = SDL_GetTicks();
-		total_time = (Uint32)(time * 0.5f * 1000.0f);
-		mod_on = module_on;
-		mod_off = module_off;
-	}
+	fading_in = true;
+	start_time = SDL_GetTicks();
+	total_time = (Uint32)(time * 0.5f * 1000.0f);
+	mod_on = module_on;
+	mod_off = module_off;
 }

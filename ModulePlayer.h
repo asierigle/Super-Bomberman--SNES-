@@ -24,5 +24,5 @@ public:
 	Animation up;
 	Animation down;
 	p2Point<int> position;
-
+	bool exploding;
 };

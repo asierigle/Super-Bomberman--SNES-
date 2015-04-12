@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "p2List.h"
+#include "ModuleCollision.h"
 
 struct Particle
 {
@@ -14,6 +15,7 @@ struct Particle
 	Uint32 born;
 	Uint32 life;
 	bool fx_played;
+	Collider* collider;
 
 	Particle();
 	Particle(const Particle& p);
@@ -29,8 +31,9 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void OnCollision(Collider*, Collider*);
 
-	void AddParticle(const Particle& particle, int x, int y, Uint32 delay = 0);
+	void AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE = COLLIDER_NONE, Uint32 delay = 0);
 
 private:
 

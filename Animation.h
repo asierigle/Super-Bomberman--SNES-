@@ -31,6 +31,11 @@ public:
 		return frames[(int)current_frame];
 	}
 
+	const SDL_Rect& PeekCurrentFrame() const
+	{
+		return frames[(int)current_frame];
+	}
+
 	bool Finished()
 	{
 		return loops > 0;

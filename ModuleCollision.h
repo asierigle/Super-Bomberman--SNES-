@@ -6,11 +6,14 @@
 
 enum COLLIDER_TYPE
 {
+	COLLIDER_NONE = -1,
 	COLLIDER_WALL,
 	COLLIDER_PLAYER,
 	COLLIDER_ENEMY,
 	COLLIDER_PLAYER_SHOT,
-	COLLIDER_ENEMY_SHOT
+	COLLIDER_ENEMY_SHOT,
+
+	COLLIDER_MAX
 };
 
 struct Collider
@@ -51,6 +54,7 @@ public:
 private:
 
 	p2List<Collider*>	colliders;
+	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 };
 
 #endif // __ModuleCollision_H__

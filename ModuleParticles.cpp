@@ -77,12 +77,35 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32 delay)
+// Always destroy particles that collide
+void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
+{
+  	p2List_item<Particle*>* tmp = active.getFirst();
+
+	while(tmp != NULL)
+	{
+		if(tmp->data->collider == c1 )
+		{
+			delete tmp->data;
+			active.del(tmp);
+			break;
+		}
+
+		tmp = tmp->next;
+	}
+}
+
+void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
 {
 	Particle* p = new Particle(particle);
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
+
+	if(collider_type != COLLIDER_NONE)
+	{
+		p->collider = App->collision->AddCollider({p->position.x, p->position.y, 0, 0}, collider_type, this);
+	}
 
 	active.add(p);
 }
@@ -90,13 +113,13 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 
-Particle::Particle() : fx(0), born(0), life(0), fx_played(false)
+Particle::Particle() : fx(0), born(0), life(0), fx_played(false), collider(NULL)
 {
 	position.SetToZero();
 	speed.SetToZero();
 }
 
-Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false)
+Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false), collider(p.collider)
 {
 	fx = p.fx;
 	born = p.born;
@@ -118,6 +141,12 @@ bool Particle::Update()
 
 	position.x += speed.x;
 	position.y += speed.y;
+
+	if(collider != NULL)
+	{
+		SDL_Rect r = anim.PeekCurrentFrame();
+		collider->rect = {position.x, position.y, r.w, r.h};
+	}
 
 	return ret;
 }
