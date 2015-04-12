@@ -13,6 +13,7 @@ struct Particle
 	p2Point<int> speed;
 	Uint32 born;
 	Uint32 life;
+	bool fx_played;
 
 	Particle();
 	Particle(const Particle& p);
@@ -40,4 +41,5 @@ public:
 
 	Particle explosion;
 	Particle laser;
+
 };

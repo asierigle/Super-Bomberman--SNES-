@@ -62,14 +62,17 @@ update_status ModuleParticles::Update()
 			delete p;
 		}
 		else if(SDL_GetTicks() >= p->born)
+		{
 			App->renderer->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			if(p->fx_played == false)
+			{
+				p->fx_played = true;
+				App->audio->PlayFx(p->fx);
+			}
+		}
 
 		tmp = tmp_next;
 	}
-
-	// test --
-	if(App->input->keyboard_down[SDL_SCANCODE_0] == 1)
-		AddParticle(explosion, App->input->mouse_x, App->input->mouse_y);
 
 	return UPDATE_CONTINUE;
 }
@@ -80,8 +83,6 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
-	if(p->fx > 0)
-		App->audio->PlayFx(p->fx);
 
 	active.add(p);
 }
@@ -89,13 +90,13 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 
-Particle::Particle() : fx(0), born(0), life(0)
+Particle::Particle() : fx(0), born(0), life(0), fx_played(false)
 {
 	position.SetToZero();
 	speed.SetToZero();
 }
 
-Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed)
+Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), speed(p.speed), fx_played(false)
 {
 	fx = p.fx;
 	born = p.born;

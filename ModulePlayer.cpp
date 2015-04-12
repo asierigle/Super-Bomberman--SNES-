@@ -56,17 +56,17 @@ update_status ModulePlayer::Update()
 {
 	int speed = 1;
 
-	if(App->input->keyboard[SDL_SCANCODE_A] == 1)
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		position.x -= speed;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_D] == 1)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		position.x += speed;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_S] == 1)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		position.y += speed;
 		if(current_animation != &down)
@@ -76,7 +76,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_W] == 1)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		position.y -= speed;
 		if(current_animation != &up)
@@ -86,12 +86,12 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->keyboard_down[SDL_SCANCODE_SPACE] == 1)
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
 		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y);
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_S] == 0 && App->input->keyboard[SDL_SCANCODE_W] == 0)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
 		current_animation = &idle;
 
 	// Draw everything --------------------------------------
