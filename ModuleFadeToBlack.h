@@ -10,7 +10,6 @@ public:
 	ModuleFadeToBlack(Application* app, bool start_enabled = true);
 	~ModuleFadeToBlack();
 
-	bool Start();
 	update_status Update();
 	void FadeToBlack(Module* module_off, Module* module_on, float time = 2.0f);
 

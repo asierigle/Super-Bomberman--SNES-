@@ -25,7 +25,7 @@ Application::Application()
 	AddModule(textures);
 	AddModule(input);
 	AddModule(audio);
-	AddModule(collision);
+	
 	
 	// Scenes
 	AddModule(scene_space);
@@ -36,6 +36,7 @@ Application::Application()
 
 	// Misc
 	AddModule(particles);
+	AddModule(collision);
 	AddModule(fade); // let this after all drawing
 }
 
@@ -99,7 +100,7 @@ update_status Application::Update()
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
 		if(item->data->IsEnabled())
-			ret = item->data->Update();
+  			ret = item->data->Update();
 		item = item->next;
 	}
 

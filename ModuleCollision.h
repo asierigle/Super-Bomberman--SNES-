@@ -19,7 +19,7 @@ enum COLLIDER_TYPE
 struct Collider
 {
 	SDL_Rect rect;
-	bool enabled;
+	bool to_delete;
 	COLLIDER_TYPE type;
 	Module* callback;
 
@@ -27,7 +27,7 @@ struct Collider
 		rect(rectangle),
 		type(type),
 		callback(callback),
-		enabled(true)
+		to_delete(false)
 	{}
 
 	void SetPos(int x, int y)
@@ -46,15 +46,18 @@ public:
 	ModuleCollision(Application* app, bool start_enabled = true);
 	~ModuleCollision();
 
+	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = NULL);
+	void DrawDebug(Collider* col);
 
 private:
 
 	p2List<Collider*>	colliders;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
+	bool debug;
 };
 
 #endif // __ModuleCollision_H__

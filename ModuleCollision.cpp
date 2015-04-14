@@ -4,6 +4,8 @@
 
 ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	debug = false;
+
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
@@ -39,6 +41,26 @@ ModuleCollision::ModuleCollision(Application* app, bool start_enabled) : Module(
 ModuleCollision::~ModuleCollision()
 {}
 
+update_status ModuleCollision::PreUpdate()
+{
+	// Remove all colliders scheduled for deletion
+	p2List_item<Collider*>* tmp = colliders.getFirst();
+	p2List_item<Collider*>* tmp2;
+
+	while(tmp != NULL)
+	{
+		tmp2 = tmp->next;
+		if(tmp->data->to_delete == true)
+		{
+			delete tmp->data;
+			colliders.del(tmp);
+		}
+		tmp = tmp2;
+	}
+
+	return UPDATE_CONTINUE;
+}
+
 // Called before render is available
 update_status ModuleCollision::Update()
 {
@@ -50,6 +72,10 @@ update_status ModuleCollision::Update()
 	while(tmp != NULL)
 	{
 		c1 = tmp->data;
+
+		// Debug ---
+		if(debug)
+			DrawDebug(c1);
 
 		p2List_item<Collider*>* tmp2 = tmp->next; // avoid checking collisions already checked
 		while(tmp2 != NULL)
@@ -71,7 +97,40 @@ update_status ModuleCollision::Update()
 		tmp = tmp->next;
 	}
 
+
+
+	// Debug ---
+	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;
+
 	return UPDATE_CONTINUE;
+}
+
+void ModuleCollision::DrawDebug(Collider* col)
+{
+	Uint8 alpha = 80;
+	switch(col->type)
+	{
+		case COLLIDER_NONE:
+		App->renderer->DrawQuad(col->rect, 255, 255, 255, alpha);
+		break;
+		case COLLIDER_WALL:
+		App->renderer->DrawQuad(col->rect, 0, 0, 255, alpha);
+		break;
+		case COLLIDER_PLAYER:
+		App->renderer->DrawQuad(col->rect, 0, 255, 0, alpha);
+		break;
+		case COLLIDER_ENEMY:
+		App->renderer->DrawQuad(col->rect, 255, 0, 0, alpha);
+		break;
+		case COLLIDER_PLAYER_SHOT:
+		App->renderer->DrawQuad(col->rect, 255, 255, 0, alpha);
+		break;
+		case COLLIDER_ENEMY_SHOT:
+		App->renderer->DrawQuad(col->rect, 0, 255, 255, alpha);
+		break;
+	}
+	
 }
 
 // Called before quitting

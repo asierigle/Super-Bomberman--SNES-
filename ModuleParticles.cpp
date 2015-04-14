@@ -58,8 +58,8 @@ update_status ModuleParticles::Update()
 
 		if(p->Update() == false)
 		{
-			active.del(tmp);
 			delete p;
+			active.del(tmp);
 		}
 		else if(SDL_GetTicks() >= p->born)
 		{
@@ -85,7 +85,7 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 	while(tmp != NULL)
 	{
 		if(tmp->data->collider == c1 )
-		{
+		{	
 			delete tmp->data;
 			active.del(tmp);
 			break;
@@ -124,6 +124,12 @@ Particle::Particle(const Particle& p) : anim(p.anim), position(p.position), spee
 	fx = p.fx;
 	born = p.born;
 	life = p.life;
+}
+
+Particle::~Particle()
+{
+	if(collider)
+		collider->to_delete = true;
 }
 
 bool Particle::Update()

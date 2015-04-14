@@ -17,14 +17,6 @@ mod_off(NULL)
 ModuleFadeToBlack::~ModuleFadeToBlack()
 {}
 
-// Load assets
-bool ModuleFadeToBlack::Start()
-{
-	LOG("Preparing Fade Screen");
-	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
-	return true;
-}
-
 // Update: draw background
 update_status ModuleFadeToBlack::Update()
 {
@@ -39,8 +31,7 @@ update_status ModuleFadeToBlack::Update()
 		if(fading_in == false)
 			normalized = 1.0f - normalized;
 
-		SDL_SetRenderDrawColor(App->renderer->renderer, 0, 0, 0, (Uint8) (normalized * 255.0f));
-		SDL_RenderFillRect(App->renderer->renderer, &screen);
+		App->renderer->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f), false);
 
 		if(now >= total_time)
 		{
