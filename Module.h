@@ -68,5 +68,6 @@ public:
 	}
 
 	virtual void OnCollision(Collider* col1, Collider* col2)
-	{ }
+	{
+	}
 };

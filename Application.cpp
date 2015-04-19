@@ -8,7 +8,7 @@ Application::Application()
 	textures = new ModuleTextures(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, false);
-	scene_space = new ModuleSceneSpace(this, false);
+	level_one = new ModuleLevelOne(this, false);
 	player = new ModulePlayer(this, false);
 	scene_intro = new ModuleSceneIntro(this, true);
 	fade = new ModuleFadeToBlack(this);
@@ -28,7 +28,7 @@ Application::Application()
 	
 	
 	// Scenes
-	AddModule(scene_space);
+	AddModule(level_one);
 	AddModule(scene_intro);
 	
 	// Characters
@@ -49,7 +49,7 @@ Application::~Application()
 	delete particles;
 	delete audio;
 	delete scene_intro;
-	delete scene_space;
+	delete level_one;
 	delete player;
 	delete fade;
 	delete collision;

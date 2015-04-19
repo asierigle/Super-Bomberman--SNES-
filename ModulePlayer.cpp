@@ -9,7 +9,6 @@ ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, s
 	graphics = NULL;
 	collider = NULL;
 	current_animation = NULL;
-	exploding = false;
 
 	// idle animation (just the ship)
 	idle.frames.PushBack({66, 1, 32, 14});
@@ -35,12 +34,12 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("SuperBombeman/14Bomberman.png");
 
 	position.x = 150;
 	position.y = 120;
-	collider = App->collision->AddCollider({position.x, position.y, 32, 14}, COLLIDER_PLAYER, this);
-	exploding = false;
+
+	//collider = App->collision->AddCollider({position.x, position.y, 32, 14 }, COLLIDER_PLAYER);
 
 	return true;
 }
@@ -58,9 +57,6 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	if(exploding == true)
-		return UPDATE_CONTINUE;
-
 	int speed = 1;
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -93,15 +89,15 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	/*if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
 		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
-	}
+	}*/
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
 		current_animation = &idle;
 
-	collider->SetPos(position.x, position.y);
+	//collider->SetPos(position.x, position.y);
 
 	// Draw everything --------------------------------------
 
@@ -110,13 +106,6 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
-// Collision detection
-void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
-{
-	if(exploding == false)
-	{
-		App->fade->FadeToBlack(App->scene_space, App->scene_intro);
-		exploding = true;
-		App->particles->AddParticle(App->particles->explosion, position.x, position.y);
-	}
-}
+
+
+// TODO 4: Detectar colisio del jugador y retornar a la pantalla de inici

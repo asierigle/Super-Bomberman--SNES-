@@ -80,6 +80,7 @@ update_status ModuleParticles::Update()
 // Always destroy particles that collide
 void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 {
+	// TODO 5: Fer que cada vegada que un laser collisini sorti una explosio
   	p2List_item<Particle*>* tmp = active.getFirst();
 
 	while(tmp != NULL)
